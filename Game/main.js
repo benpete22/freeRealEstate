@@ -1,6 +1,6 @@
 var gameData = {
     previousMoney: 0,
-    money: 10000,
+    money: 1000,
     salary: 1,
     promotionCost: 10,
     lastTick: Date.now(),
