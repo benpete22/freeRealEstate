@@ -73,7 +73,7 @@
                         {{#each upgrades}}
                         <tr>
                             <td>
-                                <a onclick="sell($($(this).parents()[1]).attr('id'))" class="button is-info is-outlined" {{#unless ../owned}}disabled{{/unless}}>
+                                <a onclick="upgrade($(this))" data-upgrade-name="{{name}}" data-upgrade-index="{{@index}}" class="button is-info is-outlined" {{#unless ../owned}}disabled{{/unless}}>
                                     <span class="icon is-large">
                                         <i class="far fa-money-bill-alt"></i>
                                     </span>

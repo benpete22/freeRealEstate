@@ -155,7 +155,15 @@ function sell(sellID) {
     console.log(properties.properties)
 
 } 
+
+
 //TODO upgrade()
+function upgrade(upgrade){
+
+    console.log($($(upgrade).parents()[6]).attr('id'));
+    console.log($(upgrade).data("upgrade-name"))
+    console.log($(upgrade).data("upgrade-index"))
+}
 //TODO rent()
 
 var mainGameLoop = window.setInterval(function() {
