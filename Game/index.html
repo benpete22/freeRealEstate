@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.css" integrity="sha256-ujE/ZUB6CMZmyJSgQjXGCF4sRRneOimQplBVLu8OU5w=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.3.1/handlebars.js" integrity="sha256-0PDwBOCK3tzQbXqTKa56UI+FbdUaZ0+Zaw2NpcfpGgc=" crossorigin="anonymous"></script>
+
+    <title>Free RealEstate</title>
+</head>
+<style>
+    body {
+        text-align: center;
+    }
+    
+    .card {
+        flex-direction: column
+    }
+    
+    .property {
+        width: 300px;
+    }
+    
+    .price {
+        margin-left: 10px
+    }
+    
+    td>.price {
+        margin-top: 10%
+    }
+</style>
+
+
+<body>
+    <p id="money">$0</p>
+    <p id="experience"> </p>
+    <button onclick="work()">work</button>
+    <button onclick="promotion()" id="promotion">get a promotion</button>
+
+    <br/>
+    <br />
+    <br />
+
+    <div id="properties" class="container level is-fullhd">
+    </div>
+</body>
+
+
+
+<script id="properties-template" type="text/x-handlebars-template">
+    {{#each properties}}
+    <div id="{{id}}" class="card property ">
+        <header class="card-header">
+            <p class="card-header-title">
+                {{name}}
+            </p>
+            <a href="#" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+            </a>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <table class="table">
+                    <tbody>
+                        {{#each upgrades}}
+                        <tr>
+                            <td>
+                                <a class="button is-info is-outlined" disabled>
+                                    <span class="icon is-large">
+                                        <i class="far fa-money-bill-alt"></i>
+                                    </span>
+                                    <span> {{name}}</span>
+                                </a>
+                            </td>
+                            <td>
+                                <span class='tag is-warning price'>${{Cost}}</span>
+                            </td>
+                            <td>
+                                <progress class="progress" value=".5" max="100" style="display:none"> 
+                                </progress>
+                            </td>
+
+                        </tr> {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <footer class="card-footer level">
+            <a onclick="buy($($(this).parents()[1]).attr('id'))" class=" card-footer-item "><span>Purchase </span><span class='tag is-warning price'>${{value}}</span></a>
+        </footer>
+    </div>
+    {{/each}}
+</script>
+
+<script src="main.js " charset="utf-8 " type="text/javascript "></script>
+
+</html>
