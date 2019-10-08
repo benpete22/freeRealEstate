@@ -154,7 +154,7 @@ function sell(sellID) {
     console.log(gameData)
     console.log(properties.properties)
 
-}
+} 
 //TODO upgrade()
 //TODO rent()
 
