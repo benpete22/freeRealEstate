@@ -1,6 +1,6 @@
 var gameData = {
     previousMoney: 0,
-    money: 1000,
+    money: 200,
     salary: 1,
     promotionCost: 10,
     lastTick: Date.now(),
@@ -157,13 +157,22 @@ function sell(sellID) {
 } 
 
 
-//TODO upgrade()
-function upgrade(upgrade){
-
-    console.log($($(upgrade).parents()[6]).attr('id'));
-    console.log($(upgrade).data("upgrade-name"))
-    console.log($(upgrade).data("upgrade-index"))
+function upgrade(upgradeButton){
+    var propertyID = parseInt($($(upgradeButton).parents()[6]).attr('id'))
+    var property = gameData.propertiesOwned.find(prop => prop.id === propertyID)
+    var upgradeIndex = $(upgradeButton).data("upgrade-index")
+    var upgrade = property.upgrades[upgradeIndex]
+    
+    if (gameData.money >= upgrade.value) {
+        if (upgrade.complete < upgrade.max){
+            console.log(upgrade.value)
+            gameData.money -= upgrade.Cost
+            upgrade.complete++
+            updatePage()
+        } 
+    }
 }
+
 //TODO rent()
 
 var mainGameLoop = window.setInterval(function() {
@@ -181,6 +190,7 @@ function updatePage() {
     document.getElementById("experience").innerHTML = "experience: " + gameData.jobDays
     if (gameData.previousMoney != Math.floor(gameData.money)) {
         $('#money').html("$" + Math.floor(gameData.money))
+        gameData.previousMoney = gameData.money
     }
     //update property values
     valueProperty();
