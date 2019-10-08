@@ -142,6 +142,9 @@ function buy(buyID) {
         console.log(properties.properties)
     }
 }
+//TODO upgrade()
+//TODO sell()
+//TODO rent()
 
 var mainGameLoop = window.setInterval(function() {
     diff = Date.now() - gameData.lastTick;
