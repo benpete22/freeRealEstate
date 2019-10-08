@@ -130,7 +130,6 @@ function buy(buyID) {
     buyID = parseInt(buyID)
     var propertyToBuy = properties.properties.find(prop => prop.id === buyID)
     var buyIDIndex = properties.properties.findIndex(prop => prop.id === buyID)
-    console.log(buyIDIndex)
     if (gameData.money >= propertyToBuy.value) {
         gameData.money -= propertyToBuy.value
         propertyToBuy.owned = true;
@@ -142,8 +141,21 @@ function buy(buyID) {
         console.log(properties.properties)
     }
 }
+function sell(sellID) {
+    sellID = parseInt(sellID)
+    var propertyToSell = gameData.propertiesOwned.find(prop => prop.id === sellID)
+    var sellIDIndex = gameData.propertiesOwned.findIndex(prop => prop.id === sellID)
+    gameData.money += propertyToSell.value
+    propertyToSell.owned = false;
+    
+    properties.properties.push(propertyToSell)
+    gameData.propertiesOwned.splice(sellIDIndex, 1)
+    updatePage()
+    console.log(gameData)
+    console.log(properties.properties)
+
+}
 //TODO upgrade()
-//TODO sell()
 //TODO rent()
 
 var mainGameLoop = window.setInterval(function() {
