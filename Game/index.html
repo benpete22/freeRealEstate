@@ -19,8 +19,9 @@
         flex-direction: column
     }
     
-    .property {
-        width: 300px;
+    .property-container{
+        margin-left: 1%;
+        margin-right:1%;
     }
     
     .price {
@@ -43,13 +44,16 @@
     <br />
     <br />
 
-    <div id="properties" class="container level is-fullhd">
+    <div id="properties-forSale" class="container level is-fullhd property-container">
+    </div>
+    <div id="properties-owned" class="container level is-fullhd property-container" >
+        hey
     </div>
 </body>
 
 
 
-<script id="properties-template" type="text/x-handlebars-template">
+<script id="buy-properties-template" type="text/x-handlebars-template">
     {{#each properties}}
     <div id="{{id}}" class="card property ">
         <header class="card-header">
@@ -69,7 +73,7 @@
                         {{#each upgrades}}
                         <tr>
                             <td>
-                                <a class="button is-info is-outlined" disabled>
+                                <a onclick="sell($($(this).parents()[1]).attr('id'))" class="button is-info is-outlined" {{#unless ../owned}}disabled{{/unless}}>
                                     <span class="icon is-large">
                                         <i class="far fa-money-bill-alt"></i>
                                     </span>
@@ -84,13 +88,27 @@
                                 </progress>
                             </td>
 
-                        </tr> {{/each}}
+                        </tr> 
+                        {{/each}}
                     </tbody>
                 </table>
             </div>
         </div>
         <footer class="card-footer level">
-            <a onclick="buy($($(this).parents()[1]).attr('id'))" class=" card-footer-item "><span>Purchase </span><span class='tag is-warning price'>${{value}}</span></a>
+            {{#unless owned}}
+                <a onclick="buy($($(this).parents()[1]).attr('id'))" class=" card-footer-item "><span>Purchase </span><span class='tag is-warning price'>${{value}}</span></a>
+            {{/unless}}
+            {{#if owned}}
+                <a onclick="sell($($(this).parents()[1]).attr('id'))" class=" card-footer-item ">
+                    <span>Sell </span>
+                    <span class='tag is-warning price'>${{value}}</span>
+                </a>
+                <a onclick="rent($($(this).parents()[1]).attr('id'))" class=" card-footer-item ">
+                    <span>Rent </span>
+                    <span class='tag is-warning price'>${{value}}</span>
+                </a>
+            {{/if}}
+
         </footer>
     </div>
     {{/each}}

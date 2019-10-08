@@ -1,12 +1,14 @@
 var gameData = {
     previousMoney: 0,
-    money: 10000,
+    money: 1000,
     salary: 1,
     promotionCost: 10,
     lastTick: Date.now(),
     income: 0,
     jobDays: 0,
-    propertiesOwned: []
+    propertiesOwned: [
+        
+    ]
 }
 var properties = {
     properties: [{
@@ -77,6 +79,7 @@ var properties = {
                 { name: "fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1 }
             ]
         }
+        
     ]
 };
 
@@ -106,38 +109,21 @@ function valueProperty() {
             upgrades += (Math.floor(upgrade.complete) * upgrade.value)
         }
         value = Math.ceil((property.landValue + property.structureValue) * upgrades);
-        //$("#" + buyID + " > footer > a .price").html("$" + value)
+
         property.value = value
     });
+
     gameData.propertiesOwned.forEach(property => {
         upgrades = 1
         for (const upgrade of property.upgrades) {
             upgrades += (Math.floor(upgrade.complete) * upgrade.value)
         }
         value = Math.ceil((property.landValue + property.structureValue) * upgrades);
-        //$("#" + buyID + " > footer > a .price").html("$" + value)
         property.value = value
     });
 
 }
 
-function oldvalueProperty() {
-
-    // for each property to buy
-    //why am I doing this this way??
-    $('.property').each(function(index, value) {
-        var buyID = parseInt($(this).attr('id'))
-        var propertyToValue = properties.properties.find(prop => prop.id === buyID)
-        var upgrades = 1
-        for (const upgrade of propertyToValue.upgrades) {
-            upgrades += (Math.floor(upgrade.complete) * upgrade.value)
-        }
-        value = Math.ceil((propertyToValue.landValue + propertyToValue.structureValue) * upgrades);
-        //$("#" + buyID + " > footer > a .price").html("$" + value)
-        propertyToValue.value = value
-    });
-
-}
 
 
 function buy(buyID) {
@@ -147,7 +133,7 @@ function buy(buyID) {
     console.log(buyIDIndex)
     if (gameData.money >= propertyToBuy.value) {
         gameData.money -= propertyToBuy.value
-
+        propertyToBuy.owned = true;
         gameData.propertiesOwned.push(propertyToBuy)
         properties.properties.splice(buyIDIndex, 1)
 
@@ -173,17 +159,21 @@ function updatePage() {
     if (gameData.previousMoney != Math.floor(gameData.money)) {
         $('#money').html("$" + Math.floor(gameData.money))
     }
+    //update property values
     valueProperty();
 
+
     //properties to buy
-    var template = $('#properties-template').html();
+    var template = $('#buy-properties-template').html();
     var templateScript = Handlebars.compile(template);
     var html = templateScript(properties);
-    $("#properties").html(html);
-
-
-    //update property values
-
+    $("#properties-forSale").html(html);
+    
+    //update owned properties
+    
+    //$("#properties-owned").show()
+    html = templateScript({properties: gameData.propertiesOwned});
+    $("#properties-owned").html(html)
 }
 
 $(document).ready(function() {
