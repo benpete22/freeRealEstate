@@ -149,7 +149,7 @@ function valueProperty() {
             property.capacity = 0
         }
         property.rent = (Math.round((value * .01) *10) /10)
-        gameData.income += property.rent
+        gameData.income += property.rent * property.renters
     });
 }
 
@@ -204,7 +204,6 @@ function upgrade(upgradeButton){
     }
 }
 
-//TODO rent()
 function rent(rentButton){
     var propertyID = parseInt($($(rentButton).parents()[1]).attr('id'))
 
