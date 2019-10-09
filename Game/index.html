@@ -20,8 +20,6 @@
     }
     
     .property-container{
-        margin-left: 1%;
-        margin-right:1%;
     }
     
     .price {
@@ -31,11 +29,17 @@
     td>.price {
         margin-top: 10%
     }
+    .isDisabled {
+        color: currentColor;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
+    }
 </style>
 
 
 <body>
-    <p id="money">$0</p>
+    <p>Cash: <span id="money">$0</span> Income: <span id="income">$0</span>/second</p>
     <p id="experience"> </p>
     <button onclick="work()">work</button>
     <button onclick="promotion()" id="promotion">get a promotion</button>
@@ -60,10 +64,10 @@
             <p class="card-header-title">
                 {{name}}
             </p>
-            <a href="#" class="card-header-icon" aria-label="more options">
+            <a class="card-header-icon">
                 <span class="icon">
-                            <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
+                    <i class="fas fa-user-times"></i>{{renters}}/{{capacity}}
+                </span>
             </a>
         </header>
         <div class="card-content">
@@ -73,16 +77,18 @@
                         {{#each upgrades}}
                         <tr>
                             <td>
-                                <a onclick="upgrade($(this))" data-upgrade-name="{{name}}" data-upgrade-index="{{@index}}" class="button is-info is-outlined" {{#unless ../owned}}disabled{{/unless}}>
-                                    <span class="icon is-large">
+                                <a onclick="upgrade($(this))" data-upgrade-name="{{name}}" data-upgrade-index="{{@index}}" class="button {{#when complete 'eq' max}}is-success is-small{{else}}is-info{{/when}} is-outlined" {{#unless ../owned}}disabled{{/unless}}>
+                                    <span class="icon ">
                                         <i class="far fa-money-bill-alt"></i>
                                     </span>
                                     <span> {{name}}</span>
                                 </a>
                             </td>
+                            {{#when max 'gt' complete}}
                             <td>
                                 <span class='tag is-warning price'>${{Cost}}</span>
                             </td>
+                            {{/when}}
                             <td>
                                 <progress class="progress" value=".5" max="100" style="display:none"> 
                                 </progress>
@@ -103,9 +109,9 @@
                     <span>Sell </span>
                     <span class='tag is-warning price'>${{value}}</span>
                 </a>
-                <a onclick="rent($($(this).parents()[1]).attr('id'))" class=" card-footer-item ">
+                <a onclick="rent($(this))" class=" card-footer-item {{#unless capacity}}isDisabled{{/unless}}">
                     <span>Rent </span>
-                    <span class='tag is-warning price'>${{value}}</span>
+                    <span class='tag is-warning price'>${{rent}}/sec</span>
                 </a>
             {{/if}}
 
