@@ -1,12 +1,19 @@
 var gameData = {
     previousMoney: 0,
-    money: 2000,
+    money: 100,
     salary: 1,
     promotionCost: 10,
     lastTick: Date.now(),
     income: 0,
     jobDays: 0,
-    propertiesOwned: []
+    propertiesOwned: [],
+
+    landRatePrevious:1,
+    landRate:1,
+    landTarget:2,
+    landTargetSpeed:.1
+
+
 }
 var properties = {
     properties: [{
@@ -21,10 +28,10 @@ var properties = {
             rent: 0,
             capacity: 0,
             upgrades: [
-                { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1 },
-                { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3 },
-                { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1 },
-                { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1 }
+                { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min:1},
+                { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min:1 },
+                { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1, min:1 },
+                { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min:1 }
             ]
         },
         {
@@ -39,10 +46,10 @@ var properties = {
             rent: 0,
             capacity: 0,
             upgrades: [
-                { name: "door", Cost: 50, value: .05, complete: 0, max: 1 },
-                { name: "clean", Cost: 150, value: .10, complete: 0, max: 3 },
-                { name: "roof", Cost: 200, value: .20, complete: 0, max: 1 },
-                { name: "fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1 }
+                { name: "door", Cost: 50, value: .05, complete: 0, max: 1, min:1 },
+                { name: "clean", Cost: 150, value: .10, complete: 0, max: 3, min:1 },
+                { name: "roof", Cost: 200, value: .20, complete: 0, max: 1, min:1 },
+                { name: "fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min:1 }
             ]
         },
         {
@@ -57,10 +64,10 @@ var properties = {
             rent: 0,
             capacity: 0,
             upgrades: [
-                { name: "door", Cost: 50, value: .05, complete: 0, max: 1 },
-                { name: "clean", Cost: 150, value: .10, complete: 0, max: 3 },
-                { name: "roof", Cost: 200, value: .20, complete: 0, max: 1 },
-                { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1 }
+                { name: "door", Cost: 50, value: .05, complete: 0, max: 1, min:1 },
+                { name: "clean", Cost: 150, value: .10, complete: 0, max: 3, min:1 },
+                { name: "roof", Cost: 200, value: .20, complete: 0, max: 1, min:1 },
+                { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min:1 }
             ]
         },
         {
@@ -80,10 +87,55 @@ var properties = {
                 { name: "roof", Cost: 200, value: .20, complete: 0, max: 1 },
                 { name: "fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1 }
             ]
+        },
+        {
+            id: 51,
+            level: 0,
+            name: "shackapalooza",
+            type: "house",
+            structureValue: 20,
+            landValue: 80,
+            taxrate: 0,
+            renters: 0,
+            rent: 0,
+            capacity: 0,
+            upgrades: [
+                { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min:1},
+                { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min:1 },
+                { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1, min:1 },
+                { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min:1 }
+            ]
         }
         
     ]
 };
+
+function setLandRate(){
+    function setLandRateTarget(){
+        gameData.landTarget = (Math.random() * 2)
+        gameData.landTargetSpeed = Math.random()
+        console.log("changing")
+        console.log("CHANGED landRate: "+gameData.landRate+" LandTarget: "+gameData.landTarget+" landTargetSpeed: "+gameData.landTargetSpeed)
+    }
+    if (gameData.landRatePrevious < gameData.landTarget && gameData.landRate < gameData.landTarget){
+        //up
+        change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed 
+        gameData.landRate += change+.01
+        console.log("up")
+        console.log("landRate: "+gameData.landRate+" LandTarget: "+gameData.landTarget+" landTargetSpeed: "+gameData.landTargetSpeed+" change: "+change)
+    }else if(gameData.landRatePrevious > gameData.landTarget && gameData.landRate > gameData.landTarget){
+        //down
+        change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed 
+        gameData.landRate += change-.01
+        console.log("Down")
+        console.log("landRate: "+gameData.landRate+" LandTarget: "+gameData.landTarget+" landTargetSpeed: "+gameData.landTargetSpeed+" change: "+change)
+    }else{
+        setLandRateTarget()
+        setLandRate()
+    }
+}
+
+
 
 // a handlebars helper to add comparison functions.
 Handlebars.registerHelper( "when",function(operand_1, operator, operand_2, options) {
@@ -125,7 +177,7 @@ function valueProperty() {
         for (const upgrade of property.upgrades) {
             upgrades += (Math.floor(upgrade.complete) * upgrade.value)
         }
-        value = Math.ceil((property.landValue + property.structureValue) * upgrades);
+        value = Math.ceil(((property.landValue*gameData.landRate) + property.structureValue) * upgrades);
 
         property.value = value
     });
@@ -139,9 +191,11 @@ function valueProperty() {
             max += upgrade.max
             complete += upgrade.complete
         }
-        value = Math.ceil((property.landValue + property.structureValue) * upgrades);
+        value = Math.ceil((property.landValue*gameData.landRate) + property.structureValue* upgrades)
         property.value = value
-
+        if (property.value < 0){
+            property.renters = 0
+        }
         // if all upgrades are complete then set renting
         if ((max - complete) === 0){
             property.capacity = property.level + 1
@@ -221,9 +275,10 @@ var mainGameLoop = window.setInterval(function() {
     gameData.previousMoney = Math.floor(gameData.money)
 
     income = (gameData.income * (diff / 1000))
-    salary = ((gameData.salary / 2) * (diff / 1000))
+    salary = (((gameData.salary-1) / 2) * (diff / 1000))
     tickIncome = salary + income
     gameData.money += tickIncome
+    setLandRate()
     updatePage()
 }, 1000);
 
@@ -254,6 +309,13 @@ function updatePage() {
     html = templateScript({properties: gameData.propertiesOwned});
     $("#properties-owned").html(html)
 }
+
+
+
+
+
+
+
 
 $(document).ready(function() {
     updatePage()

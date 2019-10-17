@@ -21,7 +21,7 @@
         flex-direction: column;
     }
     .property{
-        min-width: 15%;
+        
     }
 
     .price {
@@ -37,6 +37,12 @@
         opacity: 0.5;
         text-decoration: none;
     }
+    .property-container{
+        margin-left:auto;
+        margin-right: auto;
+        min-width:98%
+    }
+
 </style>
 
 
@@ -50,10 +56,11 @@
     <br />
     <br />
 
-    <div id="properties-forSale" class="container level is-fullhd property-container">
+    <div id="properties-forSale" class="container columns is-centered is-multiline property-container">
     </div>
-    <div id="properties-owned" class="container level is-fullhd property-container" >
-        hey
+    <div class="is-divider" data-content="OR"></div>
+    <div id="properties-owned" class="container columns is-multiline property-container" >
+        Loading...
     </div>
 </body>
 
@@ -61,65 +68,65 @@
 
 <script id="buy-properties-template" type="text/x-handlebars-template">
     {{#each properties}}
-    <div id="{{id}}" class="card property ">
-        <header class="card-header">
-            <p class="card-header-title">
-                {{name}}
-            </p>
-            <a class="card-header-icon renters-icon">
-                <span class="icon {{#if capacity}}{{#when renters 'eq' capacity}}has-text-success{{else}}has-text-warning{{/when}}{{else}}has-text-grey-lighter{{/if}}">
-                    <i class="fas fa-user-times"></i>{{renters}}/{{capacity}}
-                </span>
-            </a>
-        </header>
-        <div class="card-content">
-            <div class="content">
-                <table class="table">
-                    <tbody>
-                        {{#each upgrades}}
-                        <tr class="{{#unless ../owned}}isDisabled{{/unless}}">
-                            <td>
-                                <a onclick="upgrade($(this))" data-upgrade-name="{{name}}" data-upgrade-index="{{@index}}" class="button {{#when complete 'eq' max}}is-success is-small{{else}}is-info{{/when}} is-outlined" {{#unless ../owned}}disabled{{/unless}}>
-                                    <span class="icon ">
-                                        <i class="far fa-money-bill-alt"></i>
-                                    </span>
-                                    <span> {{name}}</span>
-                                </a>
-                            </td>
-                            <td>
-                                {{#when max 'gt' complete}}
-                                <span class='tag is-warning price'>${{Cost}}</span>
-                                {{/when}}
-                            </td>
-                            <td>
-                                <progress class="progress" value=".5" max="100" style="display:none"> 
-                                </progress>
-                            </td>
+    <div class="column property-column is-narrow"> 
+        <div id="{{id}}" class="card property">
+            <header class="card-header">
+                <p class="card-header-title">
+                    {{name}}
+                </p>
+                <a class="card-header-icon renters-icon">
+                    <span class="icon {{#if capacity}}{{#when renters 'eq' capacity}}has-text-success{{else}}has-text-danger{{/when}}{{else}}has-text-grey-lighter{{/if}}">
+                        <i class="fas fa-user-times"></i>{{renters}}/{{capacity}}
+                    </span>
+                </a>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <table class="table">
+                        <tbody>
+                            {{#each upgrades}}
+                            <tr class="{{#unless ../owned}}isDisabled{{/unless}}">
+                                <td>
+                                    <a onclick="upgrade($(this))" data-upgrade-name="{{name}}" data-upgrade-index="{{@index}}" class="button {{#when complete 'eq' max}}is-success is-small{{else}}is-info{{/when}} is-outlined" {{#unless ../owned}}disabled{{/unless}}>
+                                        <span class="icon ">
+                                            <i class="far fa-money-bill-alt"></i>
+                                        </span>
+                                        <span> {{name}}</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    {{#when max 'gt' complete}}
+                                    <span class='tag is-warning price'>${{Cost}}</span>
+                                    {{/when}}
+                                </td>
+                                
 
-                        </tr> 
-                        {{/each}}
-                    </tbody>
-                </table>
+                            </tr> 
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <footer class="card-footer level">
-            {{#unless owned}}
-                <a onclick="buy($($(this).parents()[1]).attr('id'))" class=" card-footer-item "><span>Purchase </span><span class='tag is-warning price'>${{value}}</span></a>
-            {{/unless}}
-            {{#if owned}}
-                <a onclick="sell($($(this).parents()[1]).attr('id'))" class=" card-footer-item ">
-                    <span>Sell </span>
-                    <span class='tag is-warning price'>${{value}}</span>
-                </a>
-                <a onclick="rent($(this))" class=" card-footer-item {{#when renters 'eq' capacity}}isDisabled{{/when}}">
-                    <span>Rent </span>
-                    <span class='tag is-warning price'>${{rent}}/sec</span>
-                </a>
-            {{/if}}
+            <footer class="card-footer level">
+                {{#unless owned}}
+                    <a onclick="buy($($(this).parents()[1]).attr('id'))" class=" card-footer-item "><span>Purchase </span><span class='tag is-warning price'>${{value}}</span></a>
+                {{/unless}}
+                {{#if owned}}
+                    <a onclick="sell($($(this).parents()[1]).attr('id'))" class=" card-footer-item ">
+                        <span>Sell </span>
+                        <span class='tag is-warning price'>${{value}}</span>
+                    </a>
+                    <a onclick="rent($(this))" class=" card-footer-item {{#when renters 'eq' capacity}}isDisabled{{/when}}">
+                        <span>Rent </span>
+                        <span class='tag is-warning price'>${{rent}}/sec</span>
+                    </a>
+                {{/if}}
 
-        </footer>
+            </footer>
+        </div>
     </div>
     {{/each}}
+    
 </script>
 
 <script src="main.js " charset="utf-8 " type="text/javascript "></script>
