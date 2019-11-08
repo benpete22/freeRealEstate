@@ -1,0 +1,77 @@
+{
+    "propertyDB":{
+        "upgrades":[
+            {"name": "Buy Door", "Cost": 50, "value": .10, "complete": 0, "max": 1, "min":1}
+        ],
+        "names":{},
+        "levels":{},
+        "Neighborhoods":{},
+        "types":[
+            "shack":{
+                "levels": [0,1]
+            },
+            "house":{
+                "levels": [1,2,3,4,5]
+            },
+            "mansion":{
+                "levels": [5,6]    
+            },
+            "duplex":{
+                "levels": [1,2,3]
+            },
+            "appartment":{
+                "levels": [1,2,3,4]
+            },
+            "largeAppartment":{
+                "levels": [2,3,4]
+            },
+            "smallComercial":{
+                "levels": [2,3,4]
+            },
+            "mediumComercial":{
+                "levels": [3,4,5]
+            },
+            "LargeComercial":{
+                "levels": [4,5,6]
+            },
+            "smallOffice":{
+                "levels": [2,3,4]
+            },
+            "mediumOffice":{
+                "levels": [3,4,5]
+            },
+            "largeOffice":{
+                "levels": [4,5,6]
+            },
+            "skyscraper":{
+                "levels": [5,6,7]
+            },
+            "pentHouse":{
+
+            }
+        ]
+
+    }
+}
+
+
+
+
+{
+    id: 1,
+    level: 0,
+    name: "shack",
+    type: "house",
+    structureValue: 20,
+    landValue: 80,
+    taxrate: 0,
+    renters: 0,
+    rent: 0,
+    capacity: 0,
+    upgrades: [
+        { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min:1},
+        { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min:1 },
+        { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1, min:1 },
+        { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min:1 }
+    ]
+}

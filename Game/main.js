@@ -10,8 +10,8 @@ var gameData = {
 
     landRatePrevious:1,
     landRate:1,
-    landTarget:2,
-    landTargetSpeed:.1
+    landTarget:1,
+    landTargetSpeed:1.0
 
 
 }
@@ -177,9 +177,10 @@ function valueProperty() {
         for (const upgrade of property.upgrades) {
             upgrades += (Math.floor(upgrade.complete) * upgrade.value)
         }
-        value = Math.ceil(((property.landValue*gameData.landRate) + property.structureValue) * upgrades);
+        value = Math.ceil(
+            ((property.landValue*gameData.landRate)*((property.structureValue * upgrades)*.05)  + property.structureValue * upgrades)*1.05);
 
-        property.value = value
+        property.value = value 
     });
     gameData.income = 0
     gameData.propertiesOwned.forEach(property => {
@@ -191,7 +192,8 @@ function valueProperty() {
             max += upgrade.max
             complete += upgrade.complete
         }
-        value = Math.ceil((property.landValue*gameData.landRate) + property.structureValue* upgrades)
+        value = Math.ceil(
+            ((property.landValue*gameData.landRate)*((property.structureValue * upgrades)*.05) + property.structureValue * upgrades)*.95 )
         property.value = value
         if (property.value < 0){
             property.renters = 0
