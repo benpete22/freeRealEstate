@@ -1,4 +1,9 @@
+var names = $.getJSON("./names.json", function() {
+    names = names.responseJSON
+});
+
 var gameData = {
+    startup: 0,
     previousMoney: 0,
     money: 100,
     salary: 1,
@@ -15,6 +20,39 @@ var gameData = {
 
 
 }
+
+function startup(){
+    if (gameData.startup = 0){
+        PropertyGen()
+    }else{}
+}
+
+function PropertyGen(){
+    function weightedRandom(min, max) {
+        return Math.round(max / (Math.random() * max + min));
+    }
+    function getAdjective(name){
+        var rand = weightedRandom(1,10)
+        var availableAdjs = names[name].adjectives
+        var adjs = []
+        
+        $.each(availableAdjs,function(key,value){
+            if (value.Frequency <= rand ){adjs.push(key)}
+        });
+        return adjs[Math.floor(Math.random()*adjs.length)]    
+    }
+    function getName(){
+        return Object.keys(names)[Math.floor(Math.random()*Object.keys(names).length)]
+    }
+
+
+    var name = getName()
+    adj = getAdjective(name)
+    name = adj + " " + name
+    
+
+}
+
 var properties = {
     properties: [{
         id: 1,
@@ -114,21 +152,21 @@ function setLandRate() {
     function setLandRateTarget() {
         gameData.landTarget = (Math.random() * 2)
         gameData.landTargetSpeed = Math.random()
-        console.log("changing")
-        console.log("CHANGED landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed)
+        //console.log("changing")
+        //console.log("CHANGED landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed)
     }
     if (gameData.landRatePrevious < gameData.landTarget && gameData.landRate < gameData.landTarget) {
         //up
         change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed
         gameData.landRate += change + .01
-        console.log("up")
-        console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
+        //console.log("up")
+        //console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
     } else if (gameData.landRatePrevious > gameData.landTarget && gameData.landRate > gameData.landTarget) {
         //down
         change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed
         gameData.landRate += change - .01
-        console.log("Down")
-        console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
+        //console.log("Down")
+        //console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
     } else {
         setLandRateTarget()
         setLandRate()
@@ -222,8 +260,8 @@ function buy(buyID) {
         properties.properties.splice(buyIDIndex, 1)
 
         updatePage()
-        console.log(gameData)
-        console.log(properties.properties)
+        //console.log(gameData)
+        //console.log(properties.properties)
     }
 }
 function sell(sellID) {
@@ -287,6 +325,7 @@ var mainGameLoop = window.setInterval(function () {
 
 
 function updatePage() {
+    startup()
     //update Money
     document.getElementById("experience").innerHTML = "experience: " + gameData.jobDays
     if (gameData.previousMoney != Math.floor(gameData.money)) {
@@ -310,6 +349,8 @@ function updatePage() {
     //$("#properties-owned").show()
     html = templateScript({ properties: gameData.propertiesOwned });
     $("#properties-owned").html(html)
+
+    startup()
 }
 
 
