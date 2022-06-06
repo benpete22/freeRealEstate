@@ -1,0 +1,222 @@
+{
+    "shack": {
+        "adjectives":{ 
+            "": {
+                "quality": 0,
+                "Frequency": 1
+            },
+            "nice": {
+                "quality": 10,
+                "Frequency": 10
+            },
+            "spacious": {
+                "quality": 5,
+                "Frequency": 5
+            },
+            "nasty": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "swamp": {
+                "quality": -2,
+                "Frequency": 4
+            },
+            "cool": {
+                "quality": 3,
+                "Frequency": 2
+            },
+            "taco": {
+                "quality": 7,
+                "Frequency": 9
+            },
+            "rundown": {
+                "quality": -4,
+                "Frequency": 2
+            },
+            "condemned": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "liability": {
+                "quality": -8,
+                "Frequency": 4
+            }
+        }        
+    },
+    "camp": {
+        "adjectives":{ 
+            "": {
+                "quality": 0,
+                "Frequency": 1
+            },
+            "nice": {
+                "quality": 10,
+                "Frequency": 10
+            },
+            "spacious": {
+                "quality": 5,
+                "Frequency": 5
+            },
+            "nasty": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "swamp": {
+                "quality": -2,
+                "Frequency": 4
+            },
+            "cool": {
+                "quality": 3,
+                "Frequency": 2
+            },
+            "taco": {
+                "quality": 7,
+                "Frequency": 9
+            },
+            "rundown": {
+                "quality": -4,
+                "Frequency": 2
+            },
+            "condemned": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "liability": {
+                "quality": -8,
+                "Frequency": 4
+            }
+        }
+    },
+    "shanty": {
+        "adjectives":{ 
+            "": {
+                "quality": 0,
+                "Frequency": 1
+            },
+            "nice": {
+                "quality": 10,
+                "Frequency": 10
+            },
+            "spacious": {
+                "quality": 5,
+                "Frequency": 5
+            },
+            "nasty": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "swamp": {
+                "quality": -2,
+                "Frequency": 4
+            },
+            "cool": {
+                "quality": 3,
+                "Frequency": 2
+            },
+            "taco": {
+                "quality": 7,
+                "Frequency": 9
+            },
+            "rundown": {
+                "quality": -4,
+                "Frequency": 2
+            },
+            "condemned": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "liability": {
+                "quality": -8,
+                "Frequency": 4
+            }
+        }
+    },
+    "hut": {
+        "adjectives":{ 
+            "": {
+                "quality": 0,
+                "Frequency": 1
+            },
+            "nice": {
+                "quality": 10,
+                "Frequency": 10
+            },
+            "spacious": {
+                "quality": 5,
+                "Frequency": 5
+            },
+            "nasty": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "swamp": {
+                "quality": -2,
+                "Frequency": 4
+            },
+            "cool": {
+                "quality": 3,
+                "Frequency": 2
+            },
+            "taco": {
+                "quality": 7,
+                "Frequency": 9
+            },
+            "rundown": {
+                "quality": -4,
+                "Frequency": 2
+            },
+            "condemned": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "liability": {
+                "quality": -8,
+                "Frequency": 4
+            }
+        }
+    },
+    "cabin": {
+        "adjectives":{ 
+            "": {
+                "quality": 0,
+                "Frequency": 1
+            },
+            "nice": {
+                "quality": 10,
+                "Frequency": 10
+            },
+            "spacious": {
+                "quality": 5,
+                "Frequency": 5
+            },
+            "nasty": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "swamp": {
+                "quality": -2,
+                "Frequency": 4
+            },
+            "cool": {
+                "quality": 3,
+                "Frequency": 2
+            },
+            "taco": {
+                "quality": 7,
+                "Frequency": 9
+            },
+            "rundown": {
+                "quality": -4,
+                "Frequency": 2
+            },
+            "condemned": {
+                "quality": -5,
+                "Frequency": 3
+            },
+            "liability": {
+                "quality": -8,
+                "Frequency": 4
+            }
+        }
+    }
+}

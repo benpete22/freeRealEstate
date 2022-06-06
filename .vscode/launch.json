@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "node",
+            "type": "chrome",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\Game\\main.js"
+            "name": "freerealestate",
+            "url": "http://localhost:5500/Game"
         }
     ]
 }
