@@ -1,4 +1,9 @@
+var names = $.getJSON("./names.json", function() {
+    names = names.responseJSON
+});
+
 var gameData = {
+    startup: 0,
     previousMoney: 0,
     money: 100,
     salary: 1,
@@ -11,10 +16,85 @@ var gameData = {
     landRatePrevious: 1,
     landRate: 1,
     landTarget: 1,
-    landTargetSpeed: 1.0
-
+    landTargetSpeed: 1.0,
+    id: 100,
+    marketNewProperty:0
 
 }
+
+function startup(){
+
+    if (gameData.startup = 0){
+        
+    }else{}
+}
+
+function PropertyGen(){
+    function weightedRandom(min, max) {
+        return Math.round(max / (Math.random() * max + min));
+    }
+    function getAdjective(level){
+        var rand = weightedRandom(1,10)
+        var availableAdjs = names.adjectives
+        var adjs = []
+        
+        $.each(availableAdjs,function(key,value){
+            if (value.Frequency <= rand ){adjs.push(key)}
+        }); 
+    
+
+        return adjs[Math.floor(Math.random()*adjs.length)]
+        //console.log(adjs[Math.floor(Math.random()*adjs.length)])    
+    }
+
+    function getName(){
+        return Object.keys(names.names)[Math.floor(Math.random()*Object.keys(names.names).length)]
+    }
+
+
+    var name = getName()
+    var adj = getAdjective()
+    name = adj + " " + name
+    var structureValue = Math.round(((names.adjectives[adj].quality/10)+1)*20)
+    gameData.id ++
+    return {
+        id:gameData.id,
+        level: 0,
+        name: name,
+        type: "house",
+        structureValue: structureValue,
+        landValue: 80,
+        taxrate: 0,
+        renters: 0,
+        rent: 0,
+        capacity: 0,
+        marketTime: Math.round(Math.random()*100),
+        upgrades: [
+            { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min: 1 },
+            { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min: 1 },
+            { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1, min: 1 },
+            { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min: 1 }
+        ]
+    }
+}
+
+function updateMarket(){
+    if (gameData.startup == 0){
+        properties.properties = []
+        gameData.startup ++
+    }
+
+    if (gameData.marketNewProperty < 1){
+        if (properties.properties.length < 5){
+            properties.properties.push(PropertyGen())
+            gameData.marketNewProperty = Math.round(Math.random()*50)
+        }
+    }else{
+        gameData.marketNewProperty --
+    }
+}
+
+
 var properties = {
     properties: [{
         id: 1,
@@ -27,6 +107,7 @@ var properties = {
         renters: 0,
         rent: 0,
         capacity: 0,
+        value: 50,
         upgrades: [
             { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min: 1 },
             { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min: 1 },
@@ -114,21 +195,21 @@ function setLandRate() {
     function setLandRateTarget() {
         gameData.landTarget = (Math.random() * 2)
         gameData.landTargetSpeed = Math.random()
-        console.log("changing")
-        console.log("CHANGED landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed)
+        //console.log("changing")
+        //console.log("CHANGED landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed)
     }
     if (gameData.landRatePrevious < gameData.landTarget && gameData.landRate < gameData.landTarget) {
         //up
         change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed
         gameData.landRate += change + .01
-        console.log("up")
-        console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
+        //console.log("up")
+        //console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
     } else if (gameData.landRatePrevious > gameData.landTarget && gameData.landRate > gameData.landTarget) {
         //down
         change = (gameData.landTarget - gameData.landRatePrevious) * gameData.landTargetSpeed
         gameData.landRate += change - .01
-        console.log("Down")
-        console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
+        //console.log("Down")
+        //console.log("landRate: " + gameData.landRate + " LandTarget: " + gameData.landTarget + " landTargetSpeed: " + gameData.landTargetSpeed + " change: " + change)
     } else {
         setLandRateTarget()
         setLandRate()
@@ -172,6 +253,7 @@ function promotion() {
 }
 
 function valueProperty() {
+    updateMarket()
     properties.properties.forEach(property => {
         upgrades = 1
         for (const upgrade of property.upgrades) {
@@ -181,6 +263,11 @@ function valueProperty() {
             ((property.landValue * gameData.landRate) * ((property.structureValue * upgrades) * .05) + property.structureValue * upgrades) * 1.05);
 
         property.value = value
+        property.marketTime --
+        console.log(property.name + " " + property.marketTime)
+        if (property.marketTime < 1){
+            properties.properties = properties.properties.filter((item) => item.id != property.id)
+        }
     });
     gameData.income = 0
     gameData.propertiesOwned.forEach(property => {
@@ -222,8 +309,8 @@ function buy(buyID) {
         properties.properties.splice(buyIDIndex, 1)
 
         updatePage()
-        console.log(gameData)
-        console.log(properties.properties)
+        //console.log(gameData)
+        //console.log(properties.properties)
     }
 }
 function sell(sellID) {

@@ -1,0 +1,72 @@
+{
+    "names":{
+        "shack": {
+            "level":1       
+        },
+        "camp": {
+            "level":1
+        },
+        "shanty": {
+            "level":1
+        },
+        "hut": {
+            "level":1
+        },
+        "cabin": {
+            "level":1
+        }
+    },
+    "adjectives":{ 
+        "": {
+            "quality": 0,
+            "Frequency": 1,
+            "levels":[1]
+        },
+        "nice": {
+            "quality": 10,
+            "Frequency": 10,
+            "levels":[1]
+        },
+        "spacious": {
+            "quality": 5,
+            "Frequency": 5,
+            "levels":[1]
+        },
+        "nasty": {
+            "quality": -5,
+            "Frequency": 3,
+            "levels":[1]
+        },
+        "swamp": {
+            "quality": -2,
+            "Frequency": 4,
+            "levels":[1]
+        },
+        "cool": {
+            "quality": 3,
+            "Frequency": 2,
+            "levels":[1]
+        },
+        "taco": {
+            "quality": 7,
+            "Frequency": 9,
+            "levels":[1]
+        },
+        "rundown": {
+            "quality": -4,
+            "Frequency": 2,
+            "levels":[1]
+        },
+        "condemned": {
+            "quality": -5,
+            "Frequency": 3,
+            "levels":[1]
+        },
+        "liability": {
+            "quality": -8,
+            "Frequency": 4,
+            "levels":[1]
+        }
+        
+    }
+}
