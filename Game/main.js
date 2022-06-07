@@ -16,14 +16,16 @@ var gameData = {
     landRatePrevious: 1,
     landRate: 1,
     landTarget: 1,
-    landTargetSpeed: 1.0
-
+    landTargetSpeed: 1.0,
+    id: 100,
+    marketNewProperty:0
 
 }
 
 function startup(){
+
     if (gameData.startup = 0){
-        PropertyGen()
+        
     }else{}
 }
 
@@ -31,27 +33,67 @@ function PropertyGen(){
     function weightedRandom(min, max) {
         return Math.round(max / (Math.random() * max + min));
     }
-    function getAdjective(name){
+    function getAdjective(level){
         var rand = weightedRandom(1,10)
-        var availableAdjs = names[name].adjectives
+        var availableAdjs = names.adjectives
         var adjs = []
         
         $.each(availableAdjs,function(key,value){
             if (value.Frequency <= rand ){adjs.push(key)}
-        });
-        return adjs[Math.floor(Math.random()*adjs.length)]    
+        }); 
+    
+
+        return adjs[Math.floor(Math.random()*adjs.length)]
+        //console.log(adjs[Math.floor(Math.random()*adjs.length)])    
     }
+
     function getName(){
-        return Object.keys(names)[Math.floor(Math.random()*Object.keys(names).length)]
+        return Object.keys(names.names)[Math.floor(Math.random()*Object.keys(names.names).length)]
     }
 
 
     var name = getName()
-    adj = getAdjective(name)
+    var adj = getAdjective()
     name = adj + " " + name
-    
-
+    var structureValue = Math.round(((names.adjectives[adj].quality/10)+1)*20)
+    gameData.id ++
+    return {
+        id:gameData.id,
+        level: 0,
+        name: name,
+        type: "house",
+        structureValue: structureValue,
+        landValue: 80,
+        taxrate: 0,
+        renters: 0,
+        rent: 0,
+        capacity: 0,
+        marketTime: Math.round(Math.random()*100),
+        upgrades: [
+            { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min: 1 },
+            { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min: 1 },
+            { name: "Roof", Cost: 200, value: .30, complete: .1, max: 1, min: 1 },
+            { name: "Fix Plumbing", Cost: 100, value: .20, complete: 0, max: 1, min: 1 }
+        ]
+    }
 }
+
+function updateMarket(){
+    if (gameData.startup == 0){
+        properties.properties = []
+        gameData.startup ++
+    }
+
+    if (gameData.marketNewProperty < 1){
+        if (properties.properties.length < 5){
+            properties.properties.push(PropertyGen())
+            gameData.marketNewProperty = Math.round(Math.random()*50)
+        }
+    }else{
+        gameData.marketNewProperty --
+    }
+}
+
 
 var properties = {
     properties: [{
@@ -65,6 +107,7 @@ var properties = {
         renters: 0,
         rent: 0,
         capacity: 0,
+        value: 50,
         upgrades: [
             { name: "Buy Door", Cost: 50, value: .10, complete: 0, max: 1, min: 1 },
             { name: "Clean", Cost: 150, value: .20, complete: 0, max: 3, min: 1 },
@@ -210,6 +253,7 @@ function promotion() {
 }
 
 function valueProperty() {
+    updateMarket()
     properties.properties.forEach(property => {
         upgrades = 1
         for (const upgrade of property.upgrades) {
@@ -219,6 +263,11 @@ function valueProperty() {
             ((property.landValue * gameData.landRate) * ((property.structureValue * upgrades) * .05) + property.structureValue * upgrades) * 1.05);
 
         property.value = value
+        property.marketTime --
+        console.log(property.name + " " + property.marketTime)
+        if (property.marketTime < 1){
+            properties.properties = properties.properties.filter((item) => item.id != property.id)
+        }
     });
     gameData.income = 0
     gameData.propertiesOwned.forEach(property => {
@@ -325,7 +374,6 @@ var mainGameLoop = window.setInterval(function () {
 
 
 function updatePage() {
-    startup()
     //update Money
     document.getElementById("experience").innerHTML = "experience: " + gameData.jobDays
     if (gameData.previousMoney != Math.floor(gameData.money)) {
@@ -349,8 +397,6 @@ function updatePage() {
     //$("#properties-owned").show()
     html = templateScript({ properties: gameData.propertiesOwned });
     $("#properties-owned").html(html)
-
-    startup()
 }
 
 
